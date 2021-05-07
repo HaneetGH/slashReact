@@ -53,34 +53,35 @@ export default class Home extends Component {
       filteredData: [], 
       isFirstTimePageLoading: true,
       selectedApi: '',
-      store_Id :undefined
       
     };
   }
  
   componentDidMount() {
+    this.bannerListApiCall();
+    this.requestLocationPermission();
 
-    this.didBlurSubscription = this.props.navigation.addListener(
-      'focus',
-      () => {
-        console.log('store_Id', this.props.route.params);
+    // this.didBlurSubscription = this.props.navigation.addListener(
+    //   'focus',
+    //   () => {
+    //     console.log('store_Id', this.props.route.params);
 
-        const store_Id = this.props.route.params ;
+    //     const store_Id = this.props.route.params ;
 
-         this.setState({store_Id: store_Id})  
-        {
-          store_Id == undefined && this.bannerListApiCall();
-        }
-        this.requestLocationPermission();
+    //      this.setState({store_Id: store_Id})  
+    //     {
+    //       store_Id == undefined && 
+    //     }
+       
     
-        console.log('store_Id', store_Id);
-      }
-    );
+    //     console.log('store_Id', store_Id);
+    //   }
+    // );
   }
 
-  componentWillUnmount() {
-    this.didBlurSubscription;
-  }
+  // componentWillUnmount() {
+  //   this.didBlurSubscription;
+  // }
 
 
   requestLocationPermission = async () => {
@@ -142,7 +143,7 @@ export default class Home extends Component {
                 CurrentAddress: res[0].formattedAddress,
               });
 
-              {this.state.store_Id == undefined ? this.filterAPICall() : this.selectedCategoryListing()  }
+             this.filterAPICall()
 
              
             }
@@ -150,11 +151,11 @@ export default class Home extends Component {
           .catch(error => alert(error));
       },
 
-      error => {
+       error => {
         console.log(error.code, error.message);
       },
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-      // { enableHighAccuracy: true, timeout: 20000 }
+     
     );
   };
 
@@ -210,7 +211,7 @@ export default class Home extends Component {
         page: page + 1,
       },
       () => {
-        this.state.store_Id == undefined ?    this.filterAPICall() : this.selectedCategoryListing();
+        this.filterAPICall()
       },
     );
   };
@@ -223,45 +224,14 @@ export default class Home extends Component {
     );
   }
 
-  selectedCategoryListing = () => {
-    const {page, UserData, lat, lng, store_Id} = this.state;
-    this.setState({loading: true});
-
-    console.log("store_Id.store_Id",store_Id.store_Id);
-
-    let params = {store_Type: [store_Id.store_Id], page_no: page};
-
-    console.log('params', params , "selectedCategoryListing called");
-
-    service
-      .post('Vendor/Store_By_Category', params, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        this.setState({loading: false});
-
-        let data = response.data;
-        
-        if (data.status == '1') {
-          this.setState({
-            UserData: page === 1 ? data.data : [...UserData, ...data.data],
-          });
-        }
-      })
-      .catch(error => {
-        this.setState({loading: true});
-        console.log(error);
-      });
-  };
+ 
 
   renderItem = ({item}) => (
     <Pressable
       key={item.vid}
-      // onPress={() =>
-      //   this.props.navigation.navigate('CategoryDetails', {items: item})
-      // }
+      onPress={() =>
+        this.props.navigation.navigate('CategoryDetails', {items: item})
+      }
       style={styles.cardMain}>
       <View style={{flexDirection: 'row'}}>
         <View

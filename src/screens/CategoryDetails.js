@@ -9,10 +9,14 @@ import {
   ScrollView,
   Pressable,
   LogBox,
+  Dimensions
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {Icon, ProgressDialog, Header} from '../components';
-import JsonData from '../components/JsonData';
+
+const ImageBaseUrl = 'http://3.129.90.7:4500/Image/resources/';
+
+const BannerWidth = Dimensions.get('window').width;
 
 class CategoryDetails extends Component {
   constructor(props) {
@@ -97,16 +101,20 @@ class CategoryDetails extends Component {
 
   render() {
     const {data} = this.state;
+    console.log(ImageBaseUrl+data.storeLogo);
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
         <Header isShown HeaderName={data.storeName} />
+        
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={[{marginHorizontal: 16, flex: 1}]}>
             <View style={styles.imgageViews}>
               <Image
-                style={{}}
-                source={require('../assets/Images/pizza.png')}
+                style={{width:150,height:150,borderRadius:6}}
+               // source ={{uri:"http://3.129.90.7:4500/Image/resources/Untitled design (5).png"}}
+                 //source={require('../assets/Images/pizza.png')}
+                 source={{uri: "http://3.129.90.7:4500/Image/resources/"+data.storeLogo}}
               />
             </View>
 
@@ -123,7 +131,7 @@ class CategoryDetails extends Component {
                   <Text style={styles.MainViewText}>{data.storeName}</Text>
                   <Text
                     numberOfLines={3}
-                    style={[styles.subText, {marginVertical: 5}]}>
+                    style={[styles.subText, {marginVertical: 5 ,marginEnd:5}]}>
                     {data.storeAddress}
                   </Text>
 
@@ -136,7 +144,7 @@ class CategoryDetails extends Component {
                       fontWeight: '400',
                       fontStyle: 'normal',
                     }}>
-                    {(data.distance / 1000).toFixed(1) + '  kms away from you'}
+                    { data.distance !== undefined ? (data.distance / 1000).toFixed(1) + '  kms away from you' :" 0 kms away from you"  }
                   </Text>
                 </View>
 
@@ -149,7 +157,7 @@ class CategoryDetails extends Component {
                       style={{
                         color: 'white',
                         marginStart: 8,
-                        fontSize: 18,
+                        fontSize: 15,
                         alignSelf: 'center',
                       }}
                     />
@@ -183,7 +191,7 @@ class CategoryDetails extends Component {
               </View>
             </View>
 
-            <View style={{marginVertical: 12}}>
+            {/* <View style={{marginVertical: 12}}>
               <View
                 style={{
                   justifyContent: 'space-between',
@@ -219,24 +227,25 @@ class CategoryDetails extends Component {
                 renderItem={this.renderItem}
                 keyExtractor={item => item.id}
               />
-            </View>
+            </View> */}
 
-            <FlatList
+            {/* <FlatList
               nestedScrollEnabled={false}
               data={JsonData.data}
               renderItem={this.renderItemOffers}
               keyExtractor={item => item.id}
-            />
+            /> */}
           </View>
         </ScrollView>
 
-        <Pressable onPress ={()=>this.props.navigation.navigate('AddBill')}
+        <Pressable 
+        //onPress ={()=>this.props.navigation.navigate('AddBill')}
           style={{
             ...styles.addBill,
             justifyContent: 'center',
             alignItems: 'center',
             position: 'absolute',
-             top: '90%',
+             top: '80%',
            // bottom: 0,
              left: 20,
            // right: 0,
@@ -275,25 +284,37 @@ const styles = StyleSheet.create({
   MainViewText: {
     color: '#2b2e39',
     fontFamily: 'Poppins',
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '600',
     fontStyle: 'normal',
     lineHeight: 21,
   },
   cardView: {
-   // shadowColor: 'rgba(188, 188, 188, 0.08)',
-    // backgroundColor:'gray',
-    shadowOffset: {width: 3, height: 0},
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    borderRadius: 5,
+    // shadowColor: 'rgba(188, 188, 188, 0.08)',
+    // // backgroundColor:'gray',
+    // shadowOffset: {width: 2, height: 0},
+    // shadowColor: '#000',
+    // shadowOpacity: 0.1,
+    // shadowRadius: 3,
+    // borderRadius: 5,
+    // borderColor: '#fbfbfb',
+    // borderWidth: 1,
+    // backgroundColor: '#ffffff',
+    // padding: 4,
+    // elevation: 5,
+
+    shadowColor: 'rgba(188, 188, 188, 0.08)',
+    shadowOffset: {width: 2, height: 0},
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
     borderColor: '#fbfbfb',
     borderStyle: 'solid',
     borderWidth: 1,
     backgroundColor: '#ffffff',
-    padding: 8,
-    elevation: 3,
+    elevation: 2,
+    marginVertical: 6,
+    padding: 5,
+    marginHorizontal: 1,
   },
   subText: {
     opacity: 0.6,
@@ -305,8 +326,8 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   ratingSection: {
-    width: 77,
-    height: 77,
+    width: 58,
+    height: 58,
     borderRadius: 9,
     backgroundColor: '#19b95f',
     alignItems: 'center',
@@ -315,7 +336,7 @@ const styles = StyleSheet.create({
   ratingTxt: {
     color: '#ffffff',
     fontFamily: 'Poppins',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '500',
     fontStyle: 'normal',
     //lineHeight: 'normal',
@@ -339,7 +360,7 @@ const styles = StyleSheet.create({
   },
   addBill: {
     width: 108,
-    height: 42,
+    height: 40,
     shadowColor: 'rgba(0, 0, 0, 0.16)',
     shadowOffset: {width: 3, height: 0},
     shadowRadius: 6,

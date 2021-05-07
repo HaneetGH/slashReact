@@ -162,8 +162,8 @@ export default class CategoriesListing extends Component {
     return <Pressable
       key={item.vid}
       onPress={() =>
-         alert("inProgress")
-        // this.props.navigation.navigate('Home', {store_Id: item.id })
+       //  alert("inProgress")
+        this.props.navigation.navigate('CategoryListingDetails', {store_Id: item.id , store_Name:item.storeType_name })
       }
       style={styles.cardView} >
       <View

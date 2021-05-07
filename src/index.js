@@ -12,6 +12,8 @@ import RedeemPoints from './screens/RedeemPoints';
 import EditProfile from './screens/EditProfile' ;
 import Help from './screens/Help' ;
 import CategoriesListing from './screens/CategoriesListing';
+import CategoryListingDetails from './screens/CategoryListingDetails';
+
 
 export {
     Splash ,
@@ -26,4 +28,5 @@ export {
     RedeemPoints ,
     EditProfile ,
     Help ,
-    CategoriesListing }
+    CategoriesListing ,
+    CategoryListingDetails}

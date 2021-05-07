@@ -30,6 +30,7 @@ import {
   EditProfile,
   Help,
   CategoriesListing,
+  CategoryListingDetails
 } from './src';
 
 const Stack = createStackNavigator();
@@ -204,7 +205,6 @@ export default class App extends React.Component {
         initialRouteName="CategoriesListing">
         <Stack.Screen name="CategoriesListing" component={CategoriesListing} />
 
-        <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     );
   };
@@ -338,7 +338,7 @@ export default class App extends React.Component {
           <NavigationContainer>
             <Stack.Navigator
               screenOptions={{headerShown: false}}
-              initialRouteName="Home">
+              initialRouteName="Splash">
               <Stack.Screen name="Splash" component={Splash} />
               <Stack.Screen name="Home" component={this.BottamTabView} />
               <Stack.Screen name="VerifyMobile" component={VerifyMobile} />
@@ -352,7 +352,8 @@ export default class App extends React.Component {
               <Stack.Screen name="ChangeMobileNo" component={ChangeMobileNo} />
               <Stack.Screen name="RedeemPoints" component={RedeemPoints} />
               <Stack.Screen name="EditProfile" component={EditProfile} />
-              <Stack.Screen name="Help" component={Help} />
+              <Stack.Screen name="Help" component={Help} /> 
+              <Stack.Screen name="CategoryListingDetails" component={CategoryListingDetails} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>

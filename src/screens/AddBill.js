@@ -10,7 +10,7 @@ import {
   Image,
   Modal,
 } from 'react-native';
-import {
+import { 
   Icon,
   ProgressDialog,
   Header,
